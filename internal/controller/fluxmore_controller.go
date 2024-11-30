@@ -119,7 +119,7 @@ func (r *FluxMoreReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 
 		err := r.Get(ctx, types.NamespacedName{Name: fluxmore.Spec.ResourcesCheck, Namespace: fluxmore.Namespace}, &Secret)
 		statusPatch := client.MergeFrom(fluxmore.DeepCopy())
-		now := metav1.NewTime(time.Now())
+		timeReconcile := metav1.NewTime(time.Now())
 
 		if err != nil {
 			if errors.IsNotFound(err) {
@@ -139,7 +139,7 @@ func (r *FluxMoreReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 				"Namespace", fluxmore.Namespace,
 				"Name", fluxmore.Spec.ResourcesCheck)
 		}
-		fluxmore.Status.LastReconcileTime = &now
+		fluxmore.Status.LastReconcileTime = &timeReconcile
 
 		if err := r.Status().Patch(ctx, &fluxmore, statusPatch); err != nil {
 			l.Error(err, "Unable to update Fluxmore status")

@@ -1,5 +1,6 @@
 # fluxmore
-Kubernetes Operator that unsuspend flux helmRelease when dependent resources exist in the cluster
+Kubernetes Operator that unsuspend flux helmRelease when dependent resources exist in the cluster.
+The project is initialize with kubebuilder https://book.kubebuilder.io/introduction
 
 
 ### Prerequisites
