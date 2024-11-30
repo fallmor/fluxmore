@@ -48,7 +48,7 @@ var Checksuccess bool
 // +kubebuilder:rbac:groups=fluxit.morbolt.dev,resources=fluxmores,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=fluxit.morbolt.dev,resources=fluxmores/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=fluxit.morbolt.dev,resources=fluxmores/finalizers,verbs=update
-// +kubebuilder:rbac:groups=*,resources=secrets;configmaps;pods,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=*,resources=secrets;configmaps;pods,verbs=get;list;watch
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.

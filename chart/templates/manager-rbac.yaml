@@ -12,12 +12,8 @@ rules:
   - pods
   - secrets
   verbs:
-  - create
-  - delete
   - get
   - list
-  - patch
-  - update
   - watch
 - apiGroups:
   - fluxit.morbolt.dev
