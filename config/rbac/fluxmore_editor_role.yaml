@@ -1,0 +1,27 @@
+# permissions for end users to edit fluxmores.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: fluxmore
+    app.kubernetes.io/managed-by: kustomize
+  name: fluxmore-editor-role
+rules:
+- apiGroups:
+  - fluxit.morbolt.dev
+  resources:
+  - fluxmores
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - fluxit.morbolt.dev
+  resources:
+  - fluxmores/status
+  verbs:
+  - get

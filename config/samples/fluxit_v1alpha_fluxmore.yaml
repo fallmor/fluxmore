@@ -1,0 +1,13 @@
+apiVersion: fluxit.morbolt.dev/v1alpha
+kind: FluxMore
+metadata:
+  labels:
+    app.kubernetes.io/name: fluxmore
+    app.kubernetes.io/managed-by: kustomize
+  name: fluxmore-sample1
+  namespace: myns1
+spec:
+  helmreleasename : myhr2
+  resourcescheck: mypod
+  resourceskind: pod
+

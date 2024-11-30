@@ -1,0 +1,58 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manager-role
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - configmaps
+  - pods
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - fluxit.morbolt.dev
+  resources:
+  - fluxmores
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - fluxit.morbolt.dev
+  resources:
+  - fluxmores/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - fluxit.morbolt.dev
+  resources:
+  - fluxmores/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - helm.toolkit.fluxcd.io
+  resources:
+  - helmreleases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch

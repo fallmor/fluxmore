@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "chart.fullname" . }}-fluxmore-viewer-role
+  labels:
+  {{- include "chart.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - fluxit.morbolt.dev
+  resources:
+  - fluxmores
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - fluxit.morbolt.dev
+  resources:
+  - fluxmores/status
+  verbs:
+  - get

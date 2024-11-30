@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- fluxit_v1alpha_fluxmore.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples
