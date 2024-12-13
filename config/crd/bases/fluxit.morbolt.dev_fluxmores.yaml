@@ -45,11 +45,14 @@ spec:
               namespace:
                 type: string
               replicanumber:
+                description: |-
+                  ReplicaNumber is the number of replica that needs to be ready before any action is done in the HelmRelease
+                  Need to be set when Deployment or Statefulset or Deployment
                 format: int32
                 minimum: 0
                 type: integer
               resourcescheck:
-                description: resourcescheck is the resource that need to exist before
+                description: Resourcescheck is the resource that need to exist before
                   the HelmRelease spec suspend is set to false
                 type: string
               resourceskind:
@@ -58,7 +61,8 @@ spec:
                 enum:
                 - secret
                 - configmap
-                - deploy
+                - deployment
+                - statefulset
                 type: string
             type: object
           status:

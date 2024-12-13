@@ -147,7 +147,7 @@ func (r *FluxMoreReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 			return ctrl.Result{}, err
 		}
 
-	case "deploy":
+	case "deployment":
 		var Deploy appsv1.Deployment
 
 		err := r.Get(ctx, types.NamespacedName{Name: fluxmore.Spec.ResourcesCheck, Namespace: fluxmore.Namespace}, &Deploy)
@@ -177,7 +177,50 @@ func (r *FluxMoreReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 			} else {
 				// No error it means Pod exists
 				fluxmore.Status.ResourcesCheckFound = true
-				l.Info("Deployment found ready",
+				l.Info("Deployment found  and all pods are ready",
+					"Namespace", fluxmore.Namespace,
+					"Name", fluxmore.Spec.ResourcesCheck)
+			}
+
+		}
+		fluxmore.Status.LastReconcileTime = &timeReconcile
+
+		if err := r.Status().Patch(ctx, &fluxmore, statusPatch); err != nil {
+			l.Error(err, "Unable to update Fluxmore status")
+			return ctrl.Result{}, err
+		}
+
+	case "statefulset":
+		var Stateful appsv1.StatefulSet
+
+		err := r.Get(ctx, types.NamespacedName{Name: fluxmore.Spec.ResourcesCheck, Namespace: fluxmore.Namespace}, &Stateful)
+		// we use MergeForm instead of DeepCopy only because we are doing a strategic merge
+		statusPatch := client.MergeFrom(fluxmore.DeepCopy())
+		timeReconcile := metav1.NewTime(time.Now())
+
+		if err != nil {
+			if errors.IsNotFound(err) {
+				// Pod not found
+				fluxmore.Status.ResourcesCheckFound = false
+				l.Info("Pod not found",
+					"Namespace", fluxmore.Namespace,
+					"Name", fluxmore.Spec.ResourcesCheck)
+			} else {
+
+				return ctrl.Result{}, err
+			}
+		} else {
+			fmt.Println(Stateful.Status.AvailableReplicas)
+			if Stateful.Status.ReadyReplicas != *fluxmore.Spec.ReplicaNumber {
+				fluxmore.Status.ResourcesCheckFound = false
+				l.Info("Pods found in a running phase but the expected replicas does not match",
+					"Namespace", fluxmore.Namespace,
+					"Name", fluxmore.Spec.ResourcesCheck)
+
+			} else {
+				// No error it means Pod exists
+				fluxmore.Status.ResourcesCheckFound = true
+				l.Info("Statefulset found  and all pods are ready",
 					"Namespace", fluxmore.Namespace,
 					"Name", fluxmore.Spec.ResourcesCheck)
 			}

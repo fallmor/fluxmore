@@ -30,15 +30,16 @@ type FluxMoreSpec struct {
 
 	// helmreleasename is the name of the HelmRealease to suspend
 	HelmReleaseName string `json:"helmreleasename,omitempty"`
-	// resourcescheck is the resource that need to exist before the HelmRelease spec suspend is set to false
+	// Resourcescheck is the resource that need to exist before the HelmRelease spec suspend is set to false
 	ResourcesCheck string `json:"resourcescheck,omitempty"`
-	// +kubebuilder:validation:Enum=secret;configmap;deploy
+	// +kubebuilder:validation:Enum=secret;configmap;deployment;statefulset
 	// when deploy, it will check if the ReplicaNumber is equel to the running pod
 	ResourcesKind string `json:"resourceskind,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	// +kubebuilder:validation:Minimum=0
-	ReplicaNumber *int32 `json:"replicanumber,omitempty"`
+	// ReplicaNumber is the number of replica that needs to be ready before any action is done in the HelmRelease
+	// Need to be set when Deployment or Statefulset or Deployment
+	ReplicaNumber *int32 `json:"replicanumber"`
 
 	Namespace string `json:"namespace,omitempty"`
 }
