@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"time"
 
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -146,16 +147,10 @@ func (r *FluxMoreReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 			return ctrl.Result{}, err
 		}
 
-	case "pod":
-		var Pod corev1.Pod
-		// Pod := &corev1.Pod{
-		// 	ObjectMeta: metav1.ObjectMeta{
-		// 		Name:      fluxmore.Spec.ResourcesCheck,
-		// 		Namespace: fluxmore.Namespace,
-		// 	},
-		// }
+	case "deploy":
+		var Deploy appsv1.Deployment
 
-		err := r.Get(ctx, types.NamespacedName{Name: fluxmore.Spec.ResourcesCheck, Namespace: fluxmore.Namespace}, &Pod)
+		err := r.Get(ctx, types.NamespacedName{Name: fluxmore.Spec.ResourcesCheck, Namespace: fluxmore.Namespace}, &Deploy)
 		// we use MergeForm instead of DeepCopy only because we are doing a strategic merge
 		statusPatch := client.MergeFrom(fluxmore.DeepCopy())
 		timeReconcile := metav1.NewTime(time.Now())
@@ -172,17 +167,17 @@ func (r *FluxMoreReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 				return ctrl.Result{}, err
 			}
 		} else {
-			fmt.Println(Pod.Status.Phase)
-			if Pod.Status.Phase != corev1.PodRunning {
+			fmt.Println(Deploy.Status.AvailableReplicas)
+			if Deploy.Status.ReadyReplicas != *fluxmore.Spec.ReplicaNumber {
 				fluxmore.Status.ResourcesCheckFound = false
-				l.Info("Pod found but it's not in a running phase",
+				l.Info("Pods found in a running phase but the expected replicas does not match",
 					"Namespace", fluxmore.Namespace,
 					"Name", fluxmore.Spec.ResourcesCheck)
 
 			} else {
 				// No error it means Pod exists
 				fluxmore.Status.ResourcesCheckFound = true
-				l.Info("Pod found",
+				l.Info("Deployment found ready",
 					"Namespace", fluxmore.Namespace,
 					"Name", fluxmore.Spec.ResourcesCheck)
 			}

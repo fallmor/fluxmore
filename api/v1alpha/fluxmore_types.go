@@ -32,10 +32,15 @@ type FluxMoreSpec struct {
 	HelmReleaseName string `json:"helmreleasename,omitempty"`
 	// resourcescheck is the resource that need to exist before the HelmRelease spec suspend is set to false
 	ResourcesCheck string `json:"resourcescheck,omitempty"`
-	// +kubebuilder:validation:Enum=secret;configmap;pod
-	// when pod, it will check if they are running
+	// +kubebuilder:validation:Enum=secret;configmap;deploy
+	// when deploy, it will check if the ReplicaNumber is equel to the running pod
 	ResourcesKind string `json:"resourceskind,omitempty"`
-	Namespace     string `json:"namespace,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:validation:Minimum=0
+	ReplicaNumber *int32 `json:"replicanumber,omitempty"`
+
+	Namespace string `json:"namespace,omitempty"`
 }
 
 // FluxMoreStatus defines the observed state of FluxMore.

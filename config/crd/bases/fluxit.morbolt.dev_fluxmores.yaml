@@ -44,16 +44,21 @@ spec:
                 type: string
               namespace:
                 type: string
+              replicanumber:
+                format: int32
+                minimum: 0
+                type: integer
               resourcescheck:
                 description: resourcescheck is the resource that need to exist before
                   the HelmRelease spec suspend is set to false
                 type: string
               resourceskind:
-                description: when pod, it will check if they are running
+                description: when deploy, it will check if the ReplicaNumber is equel
+                  to the running pod
                 enum:
                 - secret
                 - configmap
-                - pod
+                - deploy
                 type: string
             type: object
           status:
