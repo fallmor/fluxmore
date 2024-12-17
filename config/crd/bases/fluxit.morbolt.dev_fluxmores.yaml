@@ -64,8 +64,8 @@ spec:
                   the HelmRelease spec suspend is set to false
                 type: string
               resourceskind:
-                description: when deploy, it will check if the ReplicaNumber is equel
-                  to the running pod
+                description: when deployment,statefulset it will check if the ReplicaNumber
+                  is equal to the running pod
                 enum:
                 - secret
                 - configmap

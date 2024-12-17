@@ -8,8 +8,9 @@ rules:
   - '*'
   resources:
   - configmaps
-  - pods
+  - deployments
   - secrets
+  - statefulsets
   verbs:
   - get
   - list

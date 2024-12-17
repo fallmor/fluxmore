@@ -33,7 +33,7 @@ type FluxMoreSpec struct {
 	// Resourcescheck is the resource that need to exist before the HelmRelease spec suspend is set to false
 	ResourcesCheck string `json:"resourcescheck,omitempty"`
 	// +kubebuilder:validation:Enum=secret;configmap;deployment;statefulset
-	// when deploy, it will check if the ReplicaNumber is equel to the running pod
+	// when deployment,statefulset it will check if the ReplicaNumber is equal to the running pod
 	ResourcesKind string `json:"resourceskind,omitempty"`
 
 	// +kubebuilder:validation:Optional
