@@ -8,7 +8,7 @@ metadata:
   namespace: myns
 spec:
   helmreleasename : myhr
-  resourcescheck: mysts
-  resourceskind: statefulset
+  resourcescheck: mydeploy
+  resourceskind: deployment
   replicanumber: 3
 

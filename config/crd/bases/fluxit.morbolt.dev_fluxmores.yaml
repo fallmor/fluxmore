@@ -11,10 +11,19 @@ spec:
     kind: FluxMore
     listKind: FluxMoreList
     plural: fluxmores
+    shortNames:
+    - fm
     singular: fluxmore
   scope: Namespaced
   versions:
-  - name: v1alpha
+  - additionalPrinterColumns:
+    - jsonPath: .status.resourceCheckfound
+      name: Found Resource
+      type: boolean
+    - jsonPath: .status.helmReleasePatched
+      name: Patch HelmRelease
+      type: boolean
+    name: v1alpha
     schema:
       openAPIV3Schema:
         description: FluxMore is the Schema for the fluxmores API.
@@ -49,7 +58,6 @@ spec:
                   ReplicaNumber is the number of replica that needs to be ready before any action is done in the HelmRelease
                   Need to be set when Deployment or Statefulset or Deployment
                 format: int32
-                minimum: 0
                 type: integer
               resourcescheck:
                 description: Resourcescheck is the resource that need to exist before

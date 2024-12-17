@@ -57,7 +57,9 @@ type FluxMoreStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-
+// +kubebuilder:resource:shortName=fm
+// +kubebuilder:printcolumn:name="Found Resource",type=boolean,JSONPath=`.status.resourceCheckfound`
+// +kubebuilder:printcolumn:name="Patch HelmRelease",type=boolean,JSONPath=`.status.helmReleasePatched`
 // FluxMore is the Schema for the fluxmores API.
 type FluxMore struct {
 	metav1.TypeMeta   `json:",inline"`
