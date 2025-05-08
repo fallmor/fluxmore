@@ -1,0 +1,46 @@
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Create gh-pages branch if it doesn't exist
+        run: |
+          if ! git ls-remote --heads origin gh-pages; then
+            git checkout --orphan gh-pages
+            git rm -rf .
+            touch index.html
+            git add index.html
+            git commit -m "Initial gh-pages commit"
+            git push origin gh-pages
+            git checkout ${GITHUB_REF#refs/heads/}
+          fi
+
+      - name: Install chart-releaser
+        uses: helm/chart-releaser-action@v1.7.0
+        with:
+          charts_dir: chart
+          packages_with_index: true
+        env:
+            CR_TOKEN: "${{ secrets.CHART_RELEASER_TOKEN }}"
+            CR_PACKAGES_WITH_INDEX: true
+
+  
+        
