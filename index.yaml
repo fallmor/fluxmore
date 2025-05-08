@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  fluxmore:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2025-05-08T14:08:02.159249545Z"
+    description: A Helm chart for Kubernetes
+    digest: 1bc936958545b4fd80233f193e831527cee499436e640754a5182b32d7f8a897
+    name: fluxmore
+    type: application
+    urls:
+    - fluxmore-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-05-08T14:08:02.159254093Z"
